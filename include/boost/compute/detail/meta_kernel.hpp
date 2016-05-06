@@ -326,6 +326,8 @@ public:
                << "(" << boost::join(m_args, ", ") << ")\n"
                << "{\n" << m_source.str() << "\n}\n";
 
+        // std::cerr << stream.str() << std::endl;
+
         return stream.str();
     }
 
@@ -506,8 +508,8 @@ public:
     BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(ushort)
     BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(int)
     BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(uint)
-    BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(long)
-    BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(ulong)
+    // BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(long)
+    // BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(ulong)
     BOOST_COMPUTE_META_KERNEL_DECLARE_TYPE_STREAM_OPERATORS(double)
 
     // define stream operators for float scalar and vector types
@@ -516,11 +518,31 @@ public:
         m_source << std::showpoint << x << 'f';
         return *this;
     }
+    meta_kernel& operator<<(const long_ &x)
+    {
+        m_source << x << "l";
+        return *this;
+    }
+    meta_kernel& operator<<(const ulong_ &x)
+    {
+        m_source << x << "ul";
+        return *this;
+    }
 
     BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(float2_)
     BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(float4_)
     BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(float8_)
     BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(float16_)
+
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(long2_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(long4_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(long8_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(long16_)
+
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(ulong2_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(ulong4_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(ulong8_)
+    BOOST_COMPUTE_META_KERNEL_DECLARE_VECTOR_TYPE_STREAM_OPERATOR(ulong16_)
 
     // define stream operators for variable types
     template<class T>
@@ -535,6 +557,11 @@ public:
     {
         return *this << literal.value();
     }
+
+    // meta_kernel& operator<<(const meta_kernel_literal<long> &literal)
+    // {
+    //     return *this << literal.value() << "l";
+    // }
 
     meta_kernel& operator<<(const meta_kernel_literal<bool> &literal)
     {

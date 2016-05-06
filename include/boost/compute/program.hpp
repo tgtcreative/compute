@@ -569,7 +569,8 @@ public:
         if(!program_){
             BOOST_THROW_EXCEPTION(opencl_error(error));
         }
-
+        // 
+        // std::cout << "\n\n\n" << source << "\n\n\n";
         program prog(program_, false);
         prog.build(options);
 

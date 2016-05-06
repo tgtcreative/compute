@@ -67,12 +67,21 @@ public:
         std::memcpy(m_value, other.m_value, sizeof(m_value));
     }
 
+    template<typename Iterator>
+    vector_type(Iterator begin, Iterator end) {
+      for(size_t i = 0; begin != end && i < N; i++, begin++) {
+        m_value[i] = *begin;
+      }
+    }
+
+
     vector_type<Scalar, N>&
     operator=(const vector_type<Scalar, N> &other)
     {
         std::memcpy(m_value, other.m_value, sizeof(m_value));
         return *this;
     }
+
 
     size_t size() const
     {
@@ -127,6 +136,9 @@ protected:
         { \
           BOOST_PP_REPEAT(size, BOOST_COMPUTE_VECTOR_TYPE_ASSIGN_CTOR_ARG, _) \
         } \
+        template<typename Iterator> class_name(Iterator begin, Iterator end) \
+          : vector_type<cl_scalar, size>(begin, end) \
+        {} \
     };
 
 #define BOOST_COMPUTE_DECLARE_VECTOR_TYPE(scalar, size) \
